@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
+}
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "25.0.0"
+    defaultConfig {
+        applicationId "com.example.phundal2091.templateapplication"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        multiDexEnabled true
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+}
+// Assists in working with annotation processors for Android Studio.
+apply plugin: 'com.neenbedankt.android-apt'
+
+dependencies {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.2.+'
+    testCompile 'junit:junit:4.12'
+
+    // Dart
+    compile 'com.f2prateek.dart:dart:2.0.1'
+    apt 'com.f2prateek.dart:dart-processor:2.0.1'
+    // Henson
+    compile 'com.f2prateek.dart:henson:2.0.1'
+    apt 'com.f2prateek.dart:henson-processor:2.0.1'
+
+    // Dagger 2 and Compiler
+    apt "com.google.dagger:dagger-compiler:2.0.1"
+    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.google.dagger:dagger:2.0.1'
+    compile 'javax.annotation:jsr250-api:1.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.google.android.gms:play-services-location:8.4.0+'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
+    compile project(':services')
+}

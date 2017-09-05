@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TemplateApplication</string>
+    <string name="title_activity_two">ActivityTwo</string>
+    <string name="base_url_mobile_api">https://api.gfm-test01.com</string>
+    <string name="gofundme_base_display_url">apiRetrofitProvider.setForgotPasswordBaseUrl(application.getString(R.string.gofundme_base_display_url));</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+
+    <string name="facebook_app_id">612116652308685</string>
+    <string name="sign_up">Don\'t have an account? Sign up.</string>
+    <string name="login_page_welcome_text">Login to your account</string>
+    <string name="login">Login</string>
+</resources>
