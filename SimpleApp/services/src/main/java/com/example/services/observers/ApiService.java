@@ -1,12 +1,14 @@
 package com.example.services.observers;
 
-import com.example.api.ResponseModel;
-import com.example.data.CustomData;
+import com.example.api.LikeResponse;
+import com.example.api.UserResponse;
+import com.example.api.recent_media.RecentMedia;
+import com.example.data.repository.UserModel;
 import com.example.services.rest.IRestClient;
 import com.example.services.retrofit.IRetrofitProvider;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -26,32 +28,65 @@ public class ApiService implements IApiService {
         this.restClient = retrofitProvider.getRetrofit().create(IRestClient.class);
     }
 
-
     @Override
-    public Observable<List<CustomData>> getCustomDataAsync() {
-        return restClient.getCustomList().map(new Function<ResponseModel, List<CustomData>>() {
+    public Observable<UserModel> getUserAsync(String accessToken) {
+        return restClient.getUser(accessToken).map(new Function<UserResponse, UserModel>() {
             @Override
-            public List<CustomData> apply(final ResponseModel responseModel) throws Exception {
-                if (responseModel != null) {
+            public UserModel apply(final UserResponse userResponse) throws Exception {
+                if(userResponse != null) {
                     // cache the response
                     realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
                     realm.executeTransactionAsync(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            realm.copyToRealmOrUpdate(responseModel.getPosts());
+                            realm.copyToRealmOrUpdate(userResponse.getData());
                         }
                     });
                     realm.commitTransaction();
-                    return responseModel.getPosts();
+                    return userResponse.getData();
                 }
-                // rxjava2 doesn't support null types, must return empty list instead
-                List<CustomData> customDatas = new ArrayList<CustomData>();
-                customDatas.add(new CustomData());
-                return customDatas;
+                return new UserModel();
             }
         });
-
     }
 
+    @Override
+    public Observable<RecentMedia> getRecentMediaAsync(String accessToken) {
+        return restClient.getRecentMedia(accessToken).map(new Function<RecentMedia,RecentMedia>() {
+            @Override
+            public RecentMedia apply(RecentMedia recentMedias) throws Exception {
+                return recentMedias;
+            }
+        });
+    }
+
+    @Override
+    public Observable<Object> postLikeAsync(String mediaId, String accessToken) {
+        return restClient.postLike(mediaId, accessToken).map(new Function<Object, Object>() {
+            @Override
+            public Object apply(Object o) throws Exception {
+                return o;
+            }
+        });
+    }
+
+    @Override
+    public Observable<Object> deleteLikeAsync(String mediaId, String accessToken) {
+        return restClient.deleteLike(mediaId, accessToken).map(new Function<Object, Object>() {
+            @Override
+            public Object apply(Object o) throws Exception {
+                return o;
+            }
+        });
+    }
+
+    public Observable<LikeResponse> getLikesAsync(String accessToken, int mediaId) {
+        return restClient.getLikes(mediaId, accessToken).map(new Function<LikeResponse, LikeResponse>() {
+            @Override
+            public LikeResponse apply(LikeResponse likeResponse) throws Exception {
+                return likeResponse;
+            }
+        });
+    }
 }

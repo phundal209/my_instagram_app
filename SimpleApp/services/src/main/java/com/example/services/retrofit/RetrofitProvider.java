@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitProvider implements IRetrofitProvider {
 
-    public static final String url = "http://10.0.2.2:3000";
+    public static final String url = "https://api.instagram.com";
 
     public RetrofitProvider() {
     }
