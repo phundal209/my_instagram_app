@@ -52,3 +52,23 @@ I chose to use Retrofit with OkHttp and RxJava2 because this allowed me to do a 
 6. RecyclerView and CardView are material design concepts in Android now. Recyclers are the more efficient choice than ListViews, and I used them to build the feed of recent media. In order to display these items in the adapter, I chose to use Cards, as they give a better UI feel to each media item.
 7. Dagger 2 is an infamous DI library. The pros of using one is the modularity and testability it brings as well as making the Activity not as bloated with code. However, it is really hard to debug if something is not working properly. It also has issues with Butterknife injection timing, and is not easy to decipher. Therefore, it is really just a comfort level with this library over time that makes it worth it.
 8. Butterknife injection was what I used to bind views in the View of my MVP framework. Butterknife's downside is that in really large projects it sometimes does not erase previous view signatures and can be a hassle to clean after. However, because of the simplicity of this project and the readability of code it was a nice thing to have.
+
+
+
+
+Technical Limitations & Next Steps
+
+Feed caching: I didn't build out screen caching of the feed. This is a limitation of this app right now, and it affects the device if, for example, the user rotates the phone. The feed model should be cached and observed from cache on rotation.
+
+Pull to refresh: The user righ tnow cannot update their feed unless they go out of the activity and come back in to it. This would be a necessary next feature to add.
+
+Pagination: Because the feed size is so small, this was not necessary for this sample app. However, as this feed grows it will need to be paginated. To do so, we will need to add a PagerAdapter that handles this. This would also be a necessary next step to take.
+
+Error Handling: There are many points of failure, one for each api call, and there is no error handling interface to handle network or server failures. This would be a next step to take so that we can handle error states.
+
+Assumptions Made:
+
+1. The api will maintain the same contract going forward
+2. Not supporting null types. I don't support them in the app, so I expect the server to not send a field if it doesn't exist.
+3. The login component is a webview and not native. I assume it is okay to link out to a webview to authenticate the user.
+
